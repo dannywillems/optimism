@@ -239,7 +239,9 @@ func launchOracleServer(logger log.Logger, pHostRW io.ReadWriteCloser, getter pr
 	go func() {
 		defer close(chErr)
 		for {
+			fmt.Println("GO: Waiting for next request")
 			if err := server.NextPreimageRequest(getter); err != nil {
+				fmt.Println("GO: Next request - an error happened: ", err)
 				if err == io.EOF || errors.Is(err, fs.ErrClosed) {
 					logger.Debug("closing pre-image server")
 					return
